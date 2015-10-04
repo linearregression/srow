@@ -16,11 +16,17 @@ Build
 
     $ rebar3 compile
 
-Supervision Tree
-----------------
+API example
+-----------
 
+```erlang
+{ok, Pid} = srow_gateway:start_link({127,0,0,1}, 9799),
+Remote = srow:remote_process({10,0,0,1}, 9799, your_registered_process),
+ok = srow_gateway:send(Pid, Remote, {your, message, no, 1}),
 ```
-sup -+- listener
-     +- gateway_sup -+- gateway to node A
-                     +- gateway to node B
+
+```erlang
+erlang:register(your_registered_process, self()),
+{ok, Pid} = srow_gateway:start_link({10,0,0,1}, 9799),
+receive Msg -> Msg end,
 ```
