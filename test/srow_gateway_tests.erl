@@ -22,9 +22,6 @@ start_link_one_msg_test() ->
     ok = srow_gateway:send(Pid1, Remote, BigMsg),
     receive Msg2 ->
             ?assertEqual(BigMsg, Msg2)
-
-    %% after 1024 ->
-    %%         ?assert(timeout)
     end,
 
     ok = srow_gateway:stop(Pid1),
@@ -39,7 +36,6 @@ repeat_msg_test() ->
     Size = 1024,
     Start = os:timestamp(),
     [begin
-         %% timer:sleep(1),
          ok = srow_gateway:send(Pid1, RemotePid2, {burger, N})
      end
      || N <- lists:seq(1, Size)],

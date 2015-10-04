@@ -156,8 +156,10 @@ send_chunks(Socket,
     {Host, Port} = RemoteHost,
 
     %% I don't understand why we need this before sending msg,
-    %% otherwise we lose some messages.
+    %% otherwise we lose some messages. I know there're no guarantee
+    %% on UDP, but even when using loopback device it drops.
     timer:sleep(1),
+
     ok = gen_udp:send(Socket, Host, Port, IoData),
 
     send_chunks(Socket, RemoteHost, MsgId, RemotePid, Count+1,
